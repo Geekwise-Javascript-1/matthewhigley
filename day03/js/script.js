@@ -45,7 +45,12 @@ var firstname = prompt('Enter your name');
 // console.log( firstname.indexOf('d') );
 // console.log( firstname.charAt(firstname.length -1) );
 
-var lastname = prompt('Enter your last name');
+// var lastname = prompt('Enter your last name');
+
+console.log(firstname);
+console.log(firstname.charAt(4));
+console.log(firstname.charAt(4).toUpperCase());
+console.log(firstname.charAt(4).toUpperCase() + firstname);
 
 // console.log( firstname.concat(' ').concat(lastname) );
 // var name = firstname.concat(' ').concat(lastname);
@@ -62,16 +67,16 @@ var lastname = prompt('Enter your last name');
 // capitalize only the first letter in first name & last name
 // alert concatenated name
 
-firstname = firstname.toLowerCase();
-lastname = lastname.toLowerCase();
-
-firstname = firstname.charAt(0).toUpperCase() +
-            firstname.substring( 1, firstname.length);
+// firstname = firstname.toLowerCase();
+// lastname = lastname.toLowerCase();
+//
+// firstname = firstname.charAt(0).toUpperCase() +
+//             firstname.substring( 1, firstname.length);
 
 // console.log(lastname.substring(1, firstname.length-1));
 // console.log(lastname.substr(1, firstname.length-1));
 
-lastname = lastname.charAt(0).toUpperCase() +
-            lastname.substr( 1, lastname.length - 1);
+// lastname = lastname.charAt(0).toUpperCase() +
+//             lastname.substr( 1, lastname.length - 1);
 
-alert(firstname.concat(' ').concat(lastname));
+// alert(firstname.concat(' ').concat(lastname));
