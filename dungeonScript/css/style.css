@@ -1,3 +1,7 @@
+/*
+    Note: Currently, the CSS only works correctly with an 8x8 grid.
+*/
+
 @import 'https://fonts.googleapis.com/css?family=Uncial+Antiqua';
 @import 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css';
 html, body {
@@ -101,7 +105,7 @@ table tr {
 table td {
     height: 100%;
     width: calc(100% / 8);
-    background-color: hsla(0, 0%, 21%, 1);
+    background-color: hsla(0, 0%, 5%, 1); /* "Fog of War" */
     border: 0px solid black;
     box-sizing: border-box;
     border-radius: 4px;

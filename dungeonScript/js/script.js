@@ -1,11 +1,13 @@
-(function(){
+(function(){ // IIFE
     var greet = document.querySelector('header > span');
     var hero = {};
 
     function checkUser(){
         if ( !localStorage.getItem('hero') ){
+            var userName = prompt('What is thy hero\'s name?');
+            userName = userName.charAt(0).toUpperCase() + userName.substr(1, userName.length).toLowerCase();
             hero = {
-                name: prompt('Hero name?'),
+                name: userName,
                 hp: 15
             };
             localStorage.setItem('hero', JSON.stringify(hero));
@@ -19,7 +21,7 @@
     }
     checkUser();
 
-    var monsters = []; //empty 'monsters' array
+    var monsters = [];
     var monTypes = ['dragon', 'troll', 'ogre', 'wolf', 'homunculus', 'bat', 'hipster'];
     var monster;
     function Monster(name, hp){
@@ -28,14 +30,13 @@
     }
     function generateMonsters(){
         var totMonsters = Math.round(Math.random() * 10);
-        console.log('total monsters: ' + totMonsters);
+        console.log('Total monsters: ' + totMonsters + '\n\r------------------\n\r------------------\n\r');
 
         for(var i = 0; i < totMonsters; i++){
             monsters[i] = new Monster();
             monsters[i].name = monTypes[ Math.floor(Math.random() * monTypes.length) ];
             monsters[i].hp = Math.ceil(Math.random() * 10);
         }
-        console.log(monsters);
     }
     generateMonsters();
 
@@ -105,6 +106,9 @@
     });
 
     var grid = function(y, x){
+        console.log('// ' + y + ' rows in the grid');
+        console.log('// ' + x + ' cells in each row\n\r');
+
         var totalCells = y * x;
         cells = [];
         var visited = [];
@@ -120,7 +124,10 @@
         }
 
         var currentCell = [ Math.floor(Math.random() * y), Math.floor(Math.random() * x) ];
+        console.log('The starting cell: ' + currentCell + '\n\r------------------\n\r');
+
         var path = [ currentCell ];
+        console.log('path: ' + path);
 
         visited[ currentCell[0] ][ currentCell[1] ] = true;
 
@@ -135,32 +142,44 @@
             ];
 
             var neighbors = [];
+            console.log('// Check all four directions.');
+            console.log(possible);
+            console.log('\n\r// Of the four sides, does a cell exist in each direction?');
 
             for(var k = 0; k < 4; k++){
-                if(
-                    possible[k][0] > -1 &&
+                if( possible[k][0] > -1 &&
                     possible[k][0] < y &&
                     possible[k][1] > -1 &&
                     possible[k][1] < x &&
-                    !visited[ possible[k][0] ][ possible[k][1] ]
-                ){
-                    neighbors.push( possible[k] );
-                }
+                    !visited[ possible[k][0] ][ possible[k][1] ]) {
+                        neighbors.push( possible[k] );
+                    }
             }
-
+            console.log(neighbors);
+            // numOfVisited++;
             if(neighbors.length){
-                var next = neighbors[ Math.floor(Math.random() * neighbors.length) ];
+                var next = neighbors[Math.floor(Math.random() * neighbors.length)];
+                console.log('\n\r// Of the available direction, randomly select one.\n\r// The selected cell to move to is: '+next+'\n\r');
+
                 cells[ currentCell[0] ][ currentCell[1] ][ next[2] ] = 1;
+                console.log('cells[ currentCell[0] ][ currentCell[1] ][ next[2] ]: cells['+currentCell[0]+']['+currentCell[1]+']['+next[2]+'] = 1');
+
                 cells[ next[0] ][ next[1] ][ next[3] ] = 1;
+                console.log('cells[ next[0] ][ next[1] ][ next[3] ]: cells['+next[0]+']['+next[1]+']['+next[3]+']');
+
                 visited[ next[0] ][ next[1] ] = true;
+                console.log('visited[ next[0] ][ next[1] ]: visited['+next[0]+']['+next[1]+'] = true');
 
                 numOfVisited++;
                 currentCell = [ next[0], next[1] ];
+                console.log('\n\rcurrentCell: ' + currentCell + '\n\r----------------------');
                 path.push(currentCell);
+                console.log('');
             }else{
                 currentCell = path.pop();
+                console.log('\n\r// No neighbors found. CurrentCell: ' + currentCell + '\n\r------------------\n\r');
             }
-        }
+        } //end while loop
         gridStart(path);
     }(8, 8);
 
@@ -203,7 +222,6 @@
             for(var j = 0; j < cells[i].length; j++){
                 maze.firstChild.childNodes[i].insertCell(j);
                 thisCell = maze.firstChild.childNodes[i].childNodes[j];
-                // console.log(thisCell);
 
                 for(var k = 0; k < 4; k++){
                     switch (k) {
@@ -246,14 +264,9 @@
     }
 
     function encounter(){
-        console.log(monsters.length);
-        console.log(cells.length);
-        console.log(cells[0].length);
-
-        // probability of encountering
-        // how many monsters?
-        // divide by
-        // total number of cells
+        // console.log(monsters.length);
+        // console.log(cells.length);
+        // console.log(cells[0].length);
 
         var probEnc = Math.round(monsters.length / (cells.length * cells[0].length) * 100);
         console.log( probEnc + '% probability of encounter' );
@@ -262,7 +275,7 @@
         console.log('chance of encounter: ' + chanceEnc);
 
         if(chanceEnc <= probEnc){
-            console.log('You ran into a baddie!');
+            // console.log('You ran into a monster!');
 
             monster = monsters.splice( Math.floor(Math.random() * monsters.length), 1 )[0];
 
@@ -272,9 +285,6 @@
     }
 
     function battle(player){
-        console.log(player);
-        console.log(hero);
-
         var takingDamage;
         if(player.name === hero.name){
             takingDamage = monster;
@@ -294,8 +304,7 @@
     }
 
     function checkIfAlive(takingDamage, hit){
-        console.log(takingDamage.name);
-        console.log(takingDamage.hp);
+        console.log(takingDamage.name + '\'s remaining hp: ' + takingDamage.hp);
 
         if(takingDamage.hp <= 0){
             if(takingDamage.name === hero.name){
